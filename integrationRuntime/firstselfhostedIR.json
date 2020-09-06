@@ -1,0 +1,7 @@
+{
+	"name": "firstselfhostedIR",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "new IR"
+	}
+}

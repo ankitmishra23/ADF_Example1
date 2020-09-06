@@ -1,0 +1,17 @@
+{
+	"name": "SqlServer1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "In this linked service Ir is of self-hosted type.",
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=demoadfdatabase.database.windows.net;initial catalog=demoadfdatabase;user id=adf",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJiYjhjZjUxOS1jODc1LTQwMDItOTY4NC01ZjVjMGIwZjgzNTIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "firstselfhostedIR",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
