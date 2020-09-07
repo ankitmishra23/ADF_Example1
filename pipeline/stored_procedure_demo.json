@@ -1,0 +1,31 @@
+{
+	"name": "stored_procedure_demo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Stored procedure demo",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[addingkey]"
+				},
+				"linkedServiceName": {
+					"referenceName": "newadfdatabase",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"folder": {
+			"name": "Using Stored Procedure"
+		},
+		"annotations": []
+	}
+}
