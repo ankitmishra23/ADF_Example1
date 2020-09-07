@@ -81,8 +81,8 @@
 				}
 			},
 			{
-				"name": "Set variable2",
-				"type": "SetVariable",
+				"name": "ForEach1",
+				"type": "ForEach",
 				"dependsOn": [
 					{
 						"activity": "If Load all files",
@@ -93,11 +93,26 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "listOfFiles",
-					"value": {
-						"value": "Load @{length(variables('files'))} files:@{join(variables('files'),',')}",
+					"items": {
+						"value": "@variables('files')",
 						"type": "Expression"
-					}
+					},
+					"isSequential": false,
+					"activities": [
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "legopipeline_task",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
 				}
 			}
 		],
@@ -109,12 +124,6 @@
 		"variables": {
 			"files": {
 				"type": "Array"
-			},
-			"listOfFiles": {
-				"type": "String"
-			},
-			"loadAllFiles": {
-				"type": "Boolean"
 			}
 		},
 		"folder": {
