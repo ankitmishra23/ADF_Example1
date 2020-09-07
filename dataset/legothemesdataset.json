@@ -1,0 +1,33 @@
+{
+	"name": "legothemesdataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "newadfdatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "parent_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "updated_date",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "SalesLT",
+			"table": "legothemesdata"
+		}
+	}
+}
