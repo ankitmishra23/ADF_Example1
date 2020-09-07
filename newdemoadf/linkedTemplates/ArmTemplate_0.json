@@ -123,6 +123,42 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/stored_procedure_demo')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Stored procedure demo",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[addingkey]"
+						},
+						"linkedServiceName": {
+							"referenceName": "newadfdatabase",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"folder": {
+					"name": "Using Stored Procedure"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/newadfdatabase')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -276,6 +312,44 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/lego_http')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/legothemesdataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "newadfdatabase",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "parent_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "updated_date",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "legothemesdata"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/newadfdatabase')]"
 			]
 		},
 		{
@@ -651,44 +725,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/selfhosteddataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "id",
-						"type": "nvarchar"
-					},
-					{
-						"name": "name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "parent_id",
-						"type": "nvarchar"
-					},
-					{
-						"name": "updated_date",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "SalesLT",
-					"table": "legothemesdata"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer1')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/newdataflow')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -724,45 +760,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/newdatabase')]",
 				"[concat(variables('factoryId'), '/datasets/Jsonexport')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/newdemodataflowmapping')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "trying out data flow...",
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DestinationDataset_j3v",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable1",
-								"type": "DatasetReference"
-							},
-							"name": "destinationdatastorage"
-						}
-					],
-					"transformations": [
-						{
-							"name": "DerivedColumn1"
-						}
-					],
-					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1\nsource1 derive(updated_date = currentDate()) ~> DerivedColumn1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> destinationdatastorage"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_j3v')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
 			]
 		}
 	]
